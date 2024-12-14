@@ -139,9 +139,6 @@ library(usmap)
 library(ggplot2)
 ```
 
-```{r}
-plot_usmap()
-```
 
 
 Used a map to visulize which type of brewery production is popular in the state. Some states dont have any data regarding their brewery production and are colored in with grey. There are 24 states without such data, which does impact on the story telling of our data.
