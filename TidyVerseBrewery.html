@@ -1,0 +1,2493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nana Frimpong">
+
+<title>TidyVerse Work 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="TidyVerseBrewery_files/libs/clipboard/clipboard.min.js"></script>
+<script src="TidyVerseBrewery_files/libs/quarto-html/quarto.js"></script>
+<script src="TidyVerseBrewery_files/libs/quarto-html/popper.min.js"></script>
+<script src="TidyVerseBrewery_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="TidyVerseBrewery_files/libs/quarto-html/anchor.min.js"></script>
+<link href="TidyVerseBrewery_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="TidyVerseBrewery_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="TidyVerseBrewery_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="TidyVerseBrewery_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="TidyVerseBrewery_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">TidyVerse Work 1</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nana Frimpong </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'jsonlite'
+
+The following object is masked from 'package:purrr':
+
+    flatten</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibblify)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>##Description</p>
+<p>This is Brewery API the list details about fifty breweries in the United States with details about their brewery type and location. Some brewery have different production levels based on their size and their consumer volume. A microbrewery is small brewery that produce low volume of beer and large brewery produce a high volume of beer. A closed brewery sells their beer through a distribution network and sells directly to their customers. A contract brewery produce beer for a another company, because they have agreement through a license. A brewpub produces their beer on site and serves it a bar or restaurant. A proprietor is brewery that owned by group of people or an individual. A question we can explore, is the relationship between bee type and location and the type of beer production a city will specilize in</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>beer_url <span class="ot">=</span> <span class="st">"https://api.openbrewerydb.org/v1/breweries"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>beer_api <span class="ot">=</span>  <span class="fu">request</span>(beer_url) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>beer_response <span class="ot">=</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">resp_body_json</span>(beer_api) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 50
+ $ :List of 16
+  ..$ id            : chr "5128df48-79fc-4f0f-8b52-d06be54d0cec"
+  ..$ name          : chr "(405) Brewing Co"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "1716 Topeka St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Norman"
+  ..$ state_province: chr "Oklahoma"
+  ..$ postal_code   : chr "73069-8224"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-97.46818222"
+  ..$ latitude      : chr "35.25738891"
+  ..$ phone         : chr "4058160490"
+  ..$ website_url   : chr "http://www.405brewing.com"
+  ..$ state         : chr "Oklahoma"
+  ..$ street        : chr "1716 Topeka St"
+ $ :List of 16
+  ..$ id            : chr "9c5a66c8-cc13-416f-a5d9-0a769c87d318"
+  ..$ name          : chr "(512) Brewing Co"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "407 Radam Ln Ste F200"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Austin"
+  ..$ state_province: chr "Texas"
+  ..$ postal_code   : chr "78745-1197"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "5129211545"
+  ..$ website_url   : chr "http://www.512brewing.com"
+  ..$ state         : chr "Texas"
+  ..$ street        : chr "407 Radam Ln Ste F200"
+ $ :List of 16
+  ..$ id            : chr "34e8c68b-6146-453f-a4b9-1f6cd99a5ada"
+  ..$ name          : chr "1 of Us Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "8100 Washington Ave"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Mount Pleasant"
+  ..$ state_province: chr "Wisconsin"
+  ..$ postal_code   : chr "53406-3920"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-87.88336350209435"
+  ..$ latitude      : chr "42.72010826899558"
+  ..$ phone         : chr "2624847553"
+  ..$ website_url   : chr "https://www.1ofusbrewing.com"
+  ..$ state         : chr "Wisconsin"
+  ..$ street        : chr "8100 Washington Ave"
+ $ :List of 16
+  ..$ id            : chr "ef970757-fe42-416f-931d-722451f1f59c"
+  ..$ name          : chr "10 Barrel Brewing Co"
+  ..$ brewery_type  : chr "large"
+  ..$ address_1     : chr "1501 E St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "San Diego"
+  ..$ state_province: chr "California"
+  ..$ postal_code   : chr "92101-6618"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-117.129593"
+  ..$ latitude      : chr "32.714813"
+  ..$ phone         : chr "6195782311"
+  ..$ website_url   : chr "http://10barrel.com"
+  ..$ state         : chr "California"
+  ..$ street        : chr "1501 E St"
+ $ :List of 16
+  ..$ id            : chr "6d14b220-8926-4521-8d19-b98a2d6ec3db"
+  ..$ name          : chr "10 Barrel Brewing Co"
+  ..$ brewery_type  : chr "large"
+  ..$ address_1     : chr "62970 18th St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Bend"
+  ..$ state_province: chr "Oregon"
+  ..$ postal_code   : chr "97701-9847"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-121.281706"
+  ..$ latitude      : chr "44.08683531"
+  ..$ phone         : chr "5415851007"
+  ..$ website_url   : chr "http://www.10barrel.com"
+  ..$ state         : chr "Oregon"
+  ..$ street        : chr "62970 18th St"
+ $ :List of 16
+  ..$ id            : chr "e2e78bd8-80ff-4a61-a65c-3bfbd9d76ce2"
+  ..$ name          : chr "10 Barrel Brewing Co"
+  ..$ brewery_type  : chr "large"
+  ..$ address_1     : chr "1135 NW Galveston Ave Ste B"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Bend"
+  ..$ state_province: chr "Oregon"
+  ..$ postal_code   : chr "97703-2465"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-121.3288021"
+  ..$ latitude      : chr "44.0575649"
+  ..$ phone         : chr "5415851007"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Oregon"
+  ..$ street        : chr "1135 NW Galveston Ave Ste B"
+ $ :List of 16
+  ..$ id            : chr "e432899b-7f58-455f-9c7b-9a6e2130a1e0"
+  ..$ name          : chr "10 Barrel Brewing Co"
+  ..$ brewery_type  : chr "large"
+  ..$ address_1     : chr "1411 NW Flanders St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Portland"
+  ..$ state_province: chr "Oregon"
+  ..$ postal_code   : chr "97209-2620"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-122.6855056"
+  ..$ latitude      : chr "45.5259786"
+  ..$ phone         : chr "5032241700"
+  ..$ website_url   : chr "http://www.10barrel.com"
+  ..$ state         : chr "Oregon"
+  ..$ street        : chr "1411 NW Flanders St"
+ $ :List of 16
+  ..$ id            : chr "9f1852da-c312-42da-9a31-097bac81c4c0"
+  ..$ name          : chr "10 Barrel Brewing Co - Bend Pub"
+  ..$ brewery_type  : chr "large"
+  ..$ address_1     : chr "62950 NE 18th St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Bend"
+  ..$ state_province: chr "Oregon"
+  ..$ postal_code   : chr "97701"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-121.2809536"
+  ..$ latitude      : chr "44.0912109"
+  ..$ phone         : chr "5415851007"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Oregon"
+  ..$ street        : chr "62950 NE 18th St"
+ $ :List of 16
+  ..$ id            : chr "ea4f30c0-bce6-416b-8904-fab4055a7362"
+  ..$ name          : chr "10 Barrel Brewing Co - Boise"
+  ..$ brewery_type  : chr "large"
+  ..$ address_1     : chr "826 W Bannock St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Boise"
+  ..$ state_province: chr "Idaho"
+  ..$ postal_code   : chr "83702-5857"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-116.202929"
+  ..$ latitude      : chr "43.618516"
+  ..$ phone         : chr "2083445870"
+  ..$ website_url   : chr "http://www.10barrel.com"
+  ..$ state         : chr "Idaho"
+  ..$ street        : chr "826 W Bannock St"
+ $ :List of 16
+  ..$ id            : chr "1988eb86-f0a2-4674-ba04-02454efa0d31"
+  ..$ name          : chr "10 Barrel Brewing Co - Denver"
+  ..$ brewery_type  : chr "large"
+  ..$ address_1     : chr "2620 Walnut St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Denver"
+  ..$ state_province: chr "Colorado"
+  ..$ postal_code   : chr "80205-2231"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-104.9853655"
+  ..$ latitude      : chr "39.7592508"
+  ..$ phone         : chr "7205738992"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Colorado"
+  ..$ street        : chr "2620 Walnut St"
+ $ :List of 16
+  ..$ id            : chr "1ecc330f-6275-42a5-b14e-00adbed62752"
+  ..$ name          : chr "10 Torr Distilling and Brewing"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "490 Mill St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Reno"
+  ..$ state_province: chr "Nevada"
+  ..$ postal_code   : chr "89502"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-119.7732015"
+  ..$ latitude      : chr "39.5171702"
+  ..$ phone         : chr "7755307014"
+  ..$ website_url   : chr "http://www.10torr.com"
+  ..$ state         : chr "Nevada"
+  ..$ street        : chr "490 Mill St"
+ $ :List of 16
+  ..$ id            : chr "7531dbd8-afc9-4b5b-95bc-7ece7f2c0bf3"
+  ..$ name          : chr "10-56 Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "400 Brown Cir"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Knox"
+  ..$ state_province: chr "Indiana"
+  ..$ postal_code   : chr "46534"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-86.627954"
+  ..$ latitude      : chr "41.289715"
+  ..$ phone         : chr "6308165790"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Indiana"
+  ..$ street        : chr "400 Brown Cir"
+ $ :List of 16
+  ..$ id            : chr "5ae467af-66dc-4d7f-8839-44228f89b596"
+  ..$ name          : chr "101 North Brewing Company"
+  ..$ brewery_type  : chr "closed"
+  ..$ address_1     : chr "1304 Scott St Ste D"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Petaluma"
+  ..$ state_province: chr "California"
+  ..$ postal_code   : chr "94954-7100"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-122.665055"
+  ..$ latitude      : chr "38.27029381"
+  ..$ phone         : chr "7077534934"
+  ..$ website_url   : chr "http://www.101northbeer.com"
+  ..$ state         : chr "California"
+  ..$ street        : chr "1304 Scott St Ste D"
+ $ :List of 16
+  ..$ id            : chr "4ffda196-dd59-44a5-9eeb-5f7fd4b58f5a"
+  ..$ name          : chr "105 West Brewing Co"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "1043 Park St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Castle Rock"
+  ..$ state_province: chr "Colorado"
+  ..$ postal_code   : chr "80109-1585"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-104.8667206"
+  ..$ latitude      : chr "39.38269495"
+  ..$ phone         : chr "3033257321"
+  ..$ website_url   : chr "http://www.105westbrewing.com"
+  ..$ state         : chr "Colorado"
+  ..$ street        : chr "1043 Park St"
+ $ :List of 16
+  ..$ id            : chr "42aa37d5-8384-4ffe-8c81-7c982eff0384"
+  ..$ name          : chr "10K Brewing"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "2005 2nd Ave"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Anoka"
+  ..$ state_province: chr "Minnesota"
+  ..$ postal_code   : chr "55303-2243"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-93.38952559"
+  ..$ latitude      : chr "45.19812039"
+  ..$ phone         : chr "7633924753"
+  ..$ website_url   : chr "http://10KBrew.com"
+  ..$ state         : chr "Minnesota"
+  ..$ street        : chr "2005 2nd Ave"
+ $ :List of 16
+  ..$ id            : chr "232e8f62-9afc-45f5-b4bc-582c26b5c43b"
+  ..$ name          : chr "10th District Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "491 Washington St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Abington"
+  ..$ state_province: chr "Massachusetts"
+  ..$ postal_code   : chr "02351-2419"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-70.94594149"
+  ..$ latitude      : chr "42.10591754"
+  ..$ phone         : chr "7813071554"
+  ..$ website_url   : chr "http://www.10thdistrictbrewing.com"
+  ..$ state         : chr "Massachusetts"
+  ..$ street        : chr "491 Washington St"
+ $ :List of 16
+  ..$ id            : chr "08f78223-24f8-4b71-b381-ea19a5bd82df"
+  ..$ name          : chr "11 Below Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "6820 Bourgeois Rd"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Houston"
+  ..$ state_province: chr "Texas"
+  ..$ postal_code   : chr "77066-3107"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-95.5186591"
+  ..$ latitude      : chr "29.9515464"
+  ..$ phone         : chr "2814442337"
+  ..$ website_url   : chr "http://www.11belowbrewing.com"
+  ..$ state         : chr "Texas"
+  ..$ street        : chr "6820 Bourgeois Rd"
+ $ :List of 16
+  ..$ id            : chr "58293321-14ae-49d7-9a7b-08436c9e63a6"
+  ..$ name          : chr "1188 Brewing Co"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "141 E Main St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "John Day"
+  ..$ state_province: chr "Oregon"
+  ..$ postal_code   : chr "97845-1210"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-118.9218754"
+  ..$ latitude      : chr "44.4146563"
+  ..$ phone         : chr "5415751188"
+  ..$ website_url   : chr "http://www.1188brewing.com"
+  ..$ state         : chr "Oregon"
+  ..$ street        : chr "141 E Main St"
+ $ :List of 16
+  ..$ id            : chr "e5f3e72a-fee2-4813-82cf-f2e53b439ae6"
+  ..$ name          : chr "12 Acres Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "Unnamed Street"
+  ..$ address_2     : chr "Clonmore"
+  ..$ address_3     : NULL
+  ..$ city          : chr "Killeshin"
+  ..$ state_province: chr "Laois"
+  ..$ postal_code   : chr "R93 X3X8"
+  ..$ country       : chr "Ireland"
+  ..$ longitude     : chr "-6.979343891"
+  ..$ latitude      : chr "52.84930763"
+  ..$ phone         : chr "353599107299"
+  ..$ website_url   : chr "https://12acresbrewing.ie/"
+  ..$ state         : chr "Laois"
+  ..$ street        : chr "Unnamed Street"
+ $ :List of 16
+  ..$ id            : chr "d81ff708-b5d2-478f-af6a-6d40f5beb9ac"
+  ..$ name          : chr "12 Gates Brewing Company"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "80 Earhart Dr Ste 20"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Williamsville"
+  ..$ state_province: chr "New York"
+  ..$ postal_code   : chr "14221-7804"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "7169066600"
+  ..$ website_url   : chr "http://www.12gatesbrewing.com"
+  ..$ state         : chr "New York"
+  ..$ street        : chr "80 Earhart Dr Ste 20"
+ $ :List of 16
+  ..$ id            : chr "fb94830f-6196-4f59-9189-c9060b778085"
+  ..$ name          : chr "12 West Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "3000 E Ray Rd Bldg 6"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Gilbert"
+  ..$ state_province: chr "Arizona"
+  ..$ postal_code   : chr "85296-7832"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "6023395014"
+  ..$ website_url   : chr "http://www.12westbrewing.com"
+  ..$ state         : chr "Arizona"
+  ..$ street        : chr "3000 E Ray Rd Bldg 6"
+ $ :List of 16
+  ..$ id            : chr "0faa0fb2-fffa-416d-9eab-46f67477c8ef"
+  ..$ name          : chr "12 West Brewing Company - Production Facility"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : NULL
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Mesa"
+  ..$ state_province: chr "Arizona"
+  ..$ postal_code   : chr "85207"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-111.5860662"
+  ..$ latitude      : chr "33.436188"
+  ..$ phone         : NULL
+  ..$ website_url   : NULL
+  ..$ state         : chr "Arizona"
+  ..$ street        : NULL
+ $ :List of 16
+  ..$ id            : chr "e54c2f02-acd6-4172-861d-fcfa54c8701a"
+  ..$ name          : chr "122 West Brewing Co"
+  ..$ brewery_type  : chr "closed"
+  ..$ address_1     : chr "2416 Meridian St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Bellingham"
+  ..$ state_province: chr "Washington"
+  ..$ postal_code   : chr "98225-2405"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-122.485982"
+  ..$ latitude      : chr "48.7621709"
+  ..$ phone         : chr "3603063285"
+  ..$ website_url   : chr "https://www.122westbrew.com/"
+  ..$ state         : chr "Washington"
+  ..$ street        : chr "2416 Meridian St"
+ $ :List of 16
+  ..$ id            : chr "d5cb896d-3e99-4e19-9693-5e06ce987e53"
+  ..$ name          : chr "127 Brewing"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "3090 Shirley Dr"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Jackson"
+  ..$ state_province: chr "Michigan"
+  ..$ postal_code   : chr "49201-7010"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-84.43116792"
+  ..$ latitude      : chr "42.28667212"
+  ..$ phone         : chr "5172581346"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Michigan"
+  ..$ street        : chr "3090 Shirley Dr"
+ $ :List of 16
+  ..$ id            : chr "06e9fffb-e820-45c9-b107-b52b51013e8f"
+  ..$ name          : chr "12Degree Brewing"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "820 Main St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Louisville"
+  ..$ state_province: chr "Colorado"
+  ..$ postal_code   : chr "80027-1865"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-105.1319826"
+  ..$ latitude      : chr "39.9782443"
+  ..$ phone         : chr "3035791004"
+  ..$ website_url   : chr "http://www.12degree.com"
+  ..$ state         : chr "Colorado"
+  ..$ street        : chr "820 Main St"
+ $ :List of 16
+  ..$ id            : chr "50521ef7-f543-4c5d-98b1-0d0ee1a2be01"
+  ..$ name          : chr "12welve Eyes Brewing"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "141 E 4th St Ste LL2"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Saint Paul"
+  ..$ state_province: chr "Minnesota"
+  ..$ postal_code   : chr "55101-1639"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "6514938106"
+  ..$ website_url   : chr "http://www.12welveEyes.com"
+  ..$ state         : chr "Minnesota"
+  ..$ street        : chr "141 E 4th St Ste LL2"
+ $ :List of 16
+  ..$ id            : chr "950180bd-29c9-46b3-ad0c-e6f09799ec7f"
+  ..$ name          : chr "13 Below Brewery"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "7391 Forbes Rd"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Cincinnati"
+  ..$ state_province: chr "Ohio"
+  ..$ postal_code   : chr "45233-1013"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-84.70634815"
+  ..$ latitude      : chr "39.12639764"
+  ..$ phone         : chr "5139750613"
+  ..$ website_url   : chr "http://www.13belowbrewery.com"
+  ..$ state         : chr "Ohio"
+  ..$ street        : chr "7391 Forbes Rd"
+ $ :List of 16
+  ..$ id            : chr "45119c56-345b-4adc-b481-c5cf7bfe98c4"
+  ..$ name          : chr "13 Stripes Brewery"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "250 Mill St, Suite PW3101"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Taylors"
+  ..$ state_province: chr "South Carolina"
+  ..$ postal_code   : chr "29687"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "8643491430"
+  ..$ website_url   : chr "http://www.13StripesBrewery.com"
+  ..$ state         : chr "South Carolina"
+  ..$ street        : chr "250 Mill St, Suite PW3101"
+ $ :List of 16
+  ..$ id            : chr "936c3d7e-5d54-4459-b72c-117cdda059b4"
+  ..$ name          : chr "13 Virtues Brewing Co"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "6410 SE Milwaukie Ave"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Portland"
+  ..$ state_province: chr "Oregon"
+  ..$ postal_code   : chr "97202-5518"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-122.6487531"
+  ..$ latitude      : chr "45.4762536"
+  ..$ phone         : chr "5032393831"
+  ..$ website_url   : chr "http://www.13virtuesbrewing.com"
+  ..$ state         : chr "Oregon"
+  ..$ street        : chr "6410 SE Milwaukie Ave"
+ $ :List of 16
+  ..$ id            : chr "5c53b314-ebab-4e3e-89be-e4139d9318ae"
+  ..$ name          : chr "1323 R &amp; D"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "1323 Capital Blvd 1323 R and D"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Raleigh"
+  ..$ state_province: chr "North Carolina"
+  ..$ postal_code   : chr "27603-1117"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "9199775654"
+  ..$ website_url   : chr "http://www.1323rnd.com"
+  ..$ state         : chr "North Carolina"
+  ..$ street        : chr "1323 Capital Blvd 1323 R and D"
+ $ :List of 16
+  ..$ id            : chr "4788221a-a03b-458c-9084-4cadd69ade6d"
+  ..$ name          : chr "14 Cannons Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "31125 Via Colinas Ste 907"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Westlake Village"
+  ..$ state_province: chr "California"
+  ..$ postal_code   : chr "91362-3974"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-118.802397"
+  ..$ latitude      : chr "34.15334"
+  ..$ phone         : chr "8186996165"
+  ..$ website_url   : chr "http://14cannons.com"
+  ..$ state         : chr "California"
+  ..$ street        : chr "31125 Via Colinas Ste 907"
+ $ :List of 16
+  ..$ id            : chr "b7b68d22-5045-4501-b9bf-ec94946eaffc"
+  ..$ name          : chr "14 Lakes Brewery"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : NULL
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Crosslake"
+  ..$ state_province: chr "Minnesota"
+  ..$ postal_code   : chr "56442"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "2186924129"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Minnesota"
+  ..$ street        : NULL
+ $ :List of 16
+  ..$ id            : chr "4b677b60-fef1-42e2-90ef-dadc1bd7fb06"
+  ..$ name          : chr "14er Brewing Company"
+  ..$ brewery_type  : chr "proprietor"
+  ..$ address_1     : chr "2801 Walnut St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Denver"
+  ..$ state_province: chr "Colorado"
+  ..$ postal_code   : chr "80205-2235"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-104.9839636"
+  ..$ latitude      : chr "39.7614112"
+  ..$ phone         : chr "7207731437"
+  ..$ website_url   : chr "http://www.14erBrewing.com"
+  ..$ state         : chr "Colorado"
+  ..$ street        : chr "2801 Walnut St"
+ $ :List of 16
+  ..$ id            : chr "6c53984f-fac1-4ea7-9c44-44e25897c71a"
+  ..$ name          : chr "14th Star Brewing"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "133 N Main St Ste 7"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Saint Albans"
+  ..$ state_province: chr "Vermont"
+  ..$ postal_code   : chr "05478-1735"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "8025285988"
+  ..$ website_url   : chr "http://www.14thstarbrewing.com"
+  ..$ state         : chr "Vermont"
+  ..$ street        : chr "133 N Main St Ste 7"
+ $ :List of 16
+  ..$ id            : chr "85192a9c-58a4-48c3-bd9d-496d09d22aa3"
+  ..$ name          : chr "16 Lots Brewing"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "753 Reading Rd"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Mason"
+  ..$ state_province: chr "Ohio"
+  ..$ postal_code   : chr "45040-1303"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-84.3183801"
+  ..$ latitude      : chr "39.3545967"
+  ..$ phone         : chr "5134863672"
+  ..$ website_url   : chr "http://www.16lots.com"
+  ..$ state         : chr "Ohio"
+  ..$ street        : chr "753 Reading Rd"
+ $ :List of 16
+  ..$ id            : chr "284b44f8-6ccb-4cd6-8d06-f2ad882a47c3"
+  ..$ name          : chr "16 Mile Brewing Co"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "413 S Bedford St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Georgetown"
+  ..$ state_province: chr "Delaware"
+  ..$ postal_code   : chr "19947-1849"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-75.37816436"
+  ..$ latitude      : chr "38.6788938"
+  ..$ phone         : chr "3022538816"
+  ..$ website_url   : chr "http://www.16milebrewery.com"
+  ..$ state         : chr "Delaware"
+  ..$ street        : chr "413 S Bedford St"
+ $ :List of 16
+  ..$ id            : chr "ee6d39c6-092f-4623-8099-5b8643f70dbe"
+  ..$ name          : chr "16 Stone Brewpub"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "9542 Main St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Holland Patent"
+  ..$ state_province: chr "New York"
+  ..$ postal_code   : chr "13354"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-75.2565195"
+  ..$ latitude      : chr "43.24211175"
+  ..$ phone         : chr "3158658500"
+  ..$ website_url   : chr "http://www.16stonebrewpub.com"
+  ..$ state         : chr "New York"
+  ..$ street        : chr "9542 Main St"
+ $ :List of 16
+  ..$ id            : chr "d35b40b0-a3ff-4878-a6ee-9caa2149b521"
+  ..$ name          : chr "1623 Brewing CO, llc"
+  ..$ brewery_type  : chr "contract"
+  ..$ address_1     : chr "1146 colonel Joshua Ct"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Westminister"
+  ..$ state_province: chr "Maryland"
+  ..$ postal_code   : chr "21157"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : NULL
+  ..$ website_url   : NULL
+  ..$ state         : chr "Maryland"
+  ..$ street        : chr "1146 colonel Joshua Ct"
+ $ :List of 16
+  ..$ id            : chr "84bd3b3c-bd2d-4e07-bc31-b43a8c8ebf4c"
+  ..$ name          : chr "1717 Brewing Co"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "322 E Court Ave"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Des Moines"
+  ..$ state_province: chr "Iowa"
+  ..$ postal_code   : chr "50309-2015"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-93.6120353"
+  ..$ latitude      : chr "41.5872267"
+  ..$ phone         : chr "5152437868"
+  ..$ website_url   : chr "http://1717brewing.com"
+  ..$ state         : chr "Iowa"
+  ..$ street        : chr "322 E Court Ave"
+ $ :List of 16
+  ..$ id            : chr "f41a0c47-ba9b-4547-bfed-fcbefe0fc74b"
+  ..$ name          : chr "1718 Ocracoke Brewing"
+  ..$ brewery_type  : chr "brewpub"
+  ..$ address_1     : chr "1129 Irvin Garrish Hwy"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Ocracoke"
+  ..$ state_province: chr "North Carolina"
+  ..$ postal_code   : chr "27960"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-75.97176063"
+  ..$ latitude      : chr "35.10715368"
+  ..$ phone         : chr "2529282337"
+  ..$ website_url   : chr "http://www.ocracokebrewing.com"
+  ..$ state         : chr "North Carolina"
+  ..$ street        : chr "1129 Irvin Garrish Hwy"
+ $ :List of 16
+  ..$ id            : chr "84d621c4-81a5-44e6-aca7-1566c2e67cc0"
+  ..$ name          : chr "1781 Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "11109 Plank Rd"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Spotsylvania"
+  ..$ state_province: chr "Virginia"
+  ..$ postal_code   : chr "22553-4258"
+  ..$ country       : chr "United States"
+  ..$ longitude     : NULL
+  ..$ latitude      : NULL
+  ..$ phone         : chr "5408412598"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Virginia"
+  ..$ street        : chr "11109 Plank Rd"
+ $ :List of 16
+  ..$ id            : chr "896f26a1-d80e-4790-9287-026a86c1799d"
+  ..$ name          : chr "180 and Tapped"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "2010 A State Ave"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Coraopolis"
+  ..$ state_province: chr "Pennsylvania"
+  ..$ postal_code   : chr "15108"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-80.15020356"
+  ..$ latitude      : chr "40.50984957"
+  ..$ phone         : chr "4127375273"
+  ..$ website_url   : chr "http://www.180andtapped.com"
+  ..$ state         : chr "Pennsylvania"
+  ..$ street        : chr "2010 A State Ave"
+ $ :List of 16
+  ..$ id            : chr "46839a79-b7bf-4733-b91b-ce116d062a57"
+  ..$ name          : chr "1817 Brewery"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "100 B South Olive St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "okolona"
+  ..$ state_province: chr "Mississippi"
+  ..$ postal_code   : chr "38860"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-88.750264"
+  ..$ latitude      : chr "34.001703"
+  ..$ phone         : chr "6623055907"
+  ..$ website_url   : NULL
+  ..$ state         : chr "Mississippi"
+  ..$ street        : chr "100 B South Olive St"
+ $ :List of 16
+  ..$ id            : chr "1a1b2165-73ed-40aa-b89b-56794d140f22"
+  ..$ name          : chr "1840 Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "342 E Ward St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Milwaukee"
+  ..$ state_province: chr "Wisconsin"
+  ..$ postal_code   : chr "53207-1348"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-87.90606942"
+  ..$ latitude      : chr "43.00436242"
+  ..$ phone         : chr "4142364056"
+  ..$ website_url   : chr "http://www.1840brewing.com"
+  ..$ state         : chr "Wisconsin"
+  ..$ street        : chr "342 E Ward St"
+ $ :List of 16
+  ..$ id            : chr "fe6b9893-b93e-43d5-a9f6-3e0c89a3f13c"
+  ..$ name          : chr "1850 Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : NULL
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Mariposa"
+  ..$ state_province: chr "California"
+  ..$ postal_code   : chr "95338"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-119.9036592"
+  ..$ latitude      : chr "37.570148"
+  ..$ phone         : NULL
+  ..$ website_url   : chr "http://www.1850restaurant.com"
+  ..$ state         : chr "California"
+  ..$ street        : NULL
+ $ :List of 16
+  ..$ id            : chr "b51f3cdf-60ff-4ae1-94a7-76906c7d62eb"
+  ..$ name          : chr "18th Street Brewery"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "5725 Miller Ave"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Gary"
+  ..$ state_province: chr "Indiana"
+  ..$ postal_code   : chr "46403-2871"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-87.26887786"
+  ..$ latitude      : chr "41.59928343"
+  ..$ phone         : NULL
+  ..$ website_url   : chr "http://www.18thstreetbrewery.com"
+  ..$ state         : chr "Indiana"
+  ..$ street        : chr "5725 Miller Ave"
+ $ :List of 16
+  ..$ id            : chr "add7f978-942e-4d56-b209-c80837a51d69"
+  ..$ name          : chr "18th Street Brewery"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "5417 Oakley Ave"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Hammond"
+  ..$ state_province: chr "Indiana"
+  ..$ postal_code   : chr "46320-1817"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-87.517422"
+  ..$ latitude      : chr "41.61556796"
+  ..$ phone         : NULL
+  ..$ website_url   : NULL
+  ..$ state         : chr "Indiana"
+  ..$ street        : chr "5417 Oakley Ave"
+ $ :List of 16
+  ..$ id            : chr "dbde8235-2b55-4d8b-8b1c-438155abe104"
+  ..$ name          : chr "1905 Brewing Company"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "1301 S Chestnut St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Assumption"
+  ..$ state_province: chr "Illinois"
+  ..$ postal_code   : chr "62510-8504"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-89.0503635"
+  ..$ latitude      : chr "39.5172564"
+  ..$ phone         : chr "2172549374"
+  ..$ website_url   : chr "http://1905BrewingCompany.com"
+  ..$ state         : chr "Illinois"
+  ..$ street        : chr "1301 S Chestnut St"
+ $ :List of 16
+  ..$ id            : chr "4f4b5b34-d572-4dff-a18f-47e507c073e6"
+  ..$ name          : chr "1912 Brewing"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "2045 N Forbes Blvd Ste 105"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Tucson"
+  ..$ state_province: chr "Arizona"
+  ..$ postal_code   : chr "85745-1444"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-110.9927505"
+  ..$ latitude      : chr "32.24673727"
+  ..$ phone         : chr "5202564851"
+  ..$ website_url   : chr "http://www.1912brewing.com"
+  ..$ state         : chr "Arizona"
+  ..$ street        : chr "2045 N Forbes Blvd Ste 105"
+ $ :List of 16
+  ..$ id            : chr "4ccad9b9-f9cf-4d21-b6d5-ab005ee1532d"
+  ..$ name          : chr "192 Brewing"
+  ..$ brewery_type  : chr "micro"
+  ..$ address_1     : chr "7324 NE 175th St"
+  ..$ address_2     : NULL
+  ..$ address_3     : NULL
+  ..$ city          : chr "Kenmore"
+  ..$ state_province: chr "Washington"
+  ..$ postal_code   : chr "98028-2500"
+  ..$ country       : chr "United States"
+  ..$ longitude     : chr "-122.2415652"
+  ..$ latitude      : chr "47.75670075"
+  ..$ phone         : chr "4254242337"
+  ..$ website_url   : chr "http://www.192brewing.com"
+  ..$ state         : chr "Washington"
+  ..$ street        : chr "7324 NE 175th St"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>beer_df <span class="ot">=</span>  <span class="fu">tibble</span>(beer_response)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(beer_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [50 × 1] (S3: tbl_df/tbl/data.frame)
+ $ beer_response:List of 50
+  ..$ :List of 16
+  .. ..$ id            : chr "5128df48-79fc-4f0f-8b52-d06be54d0cec"
+  .. ..$ name          : chr "(405) Brewing Co"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "1716 Topeka St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Norman"
+  .. ..$ state_province: chr "Oklahoma"
+  .. ..$ postal_code   : chr "73069-8224"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-97.46818222"
+  .. ..$ latitude      : chr "35.25738891"
+  .. ..$ phone         : chr "4058160490"
+  .. ..$ website_url   : chr "http://www.405brewing.com"
+  .. ..$ state         : chr "Oklahoma"
+  .. ..$ street        : chr "1716 Topeka St"
+  ..$ :List of 16
+  .. ..$ id            : chr "9c5a66c8-cc13-416f-a5d9-0a769c87d318"
+  .. ..$ name          : chr "(512) Brewing Co"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "407 Radam Ln Ste F200"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Austin"
+  .. ..$ state_province: chr "Texas"
+  .. ..$ postal_code   : chr "78745-1197"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "5129211545"
+  .. ..$ website_url   : chr "http://www.512brewing.com"
+  .. ..$ state         : chr "Texas"
+  .. ..$ street        : chr "407 Radam Ln Ste F200"
+  ..$ :List of 16
+  .. ..$ id            : chr "34e8c68b-6146-453f-a4b9-1f6cd99a5ada"
+  .. ..$ name          : chr "1 of Us Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "8100 Washington Ave"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Mount Pleasant"
+  .. ..$ state_province: chr "Wisconsin"
+  .. ..$ postal_code   : chr "53406-3920"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-87.88336350209435"
+  .. ..$ latitude      : chr "42.72010826899558"
+  .. ..$ phone         : chr "2624847553"
+  .. ..$ website_url   : chr "https://www.1ofusbrewing.com"
+  .. ..$ state         : chr "Wisconsin"
+  .. ..$ street        : chr "8100 Washington Ave"
+  ..$ :List of 16
+  .. ..$ id            : chr "ef970757-fe42-416f-931d-722451f1f59c"
+  .. ..$ name          : chr "10 Barrel Brewing Co"
+  .. ..$ brewery_type  : chr "large"
+  .. ..$ address_1     : chr "1501 E St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "San Diego"
+  .. ..$ state_province: chr "California"
+  .. ..$ postal_code   : chr "92101-6618"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-117.129593"
+  .. ..$ latitude      : chr "32.714813"
+  .. ..$ phone         : chr "6195782311"
+  .. ..$ website_url   : chr "http://10barrel.com"
+  .. ..$ state         : chr "California"
+  .. ..$ street        : chr "1501 E St"
+  ..$ :List of 16
+  .. ..$ id            : chr "6d14b220-8926-4521-8d19-b98a2d6ec3db"
+  .. ..$ name          : chr "10 Barrel Brewing Co"
+  .. ..$ brewery_type  : chr "large"
+  .. ..$ address_1     : chr "62970 18th St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Bend"
+  .. ..$ state_province: chr "Oregon"
+  .. ..$ postal_code   : chr "97701-9847"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-121.281706"
+  .. ..$ latitude      : chr "44.08683531"
+  .. ..$ phone         : chr "5415851007"
+  .. ..$ website_url   : chr "http://www.10barrel.com"
+  .. ..$ state         : chr "Oregon"
+  .. ..$ street        : chr "62970 18th St"
+  ..$ :List of 16
+  .. ..$ id            : chr "e2e78bd8-80ff-4a61-a65c-3bfbd9d76ce2"
+  .. ..$ name          : chr "10 Barrel Brewing Co"
+  .. ..$ brewery_type  : chr "large"
+  .. ..$ address_1     : chr "1135 NW Galveston Ave Ste B"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Bend"
+  .. ..$ state_province: chr "Oregon"
+  .. ..$ postal_code   : chr "97703-2465"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-121.3288021"
+  .. ..$ latitude      : chr "44.0575649"
+  .. ..$ phone         : chr "5415851007"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Oregon"
+  .. ..$ street        : chr "1135 NW Galveston Ave Ste B"
+  ..$ :List of 16
+  .. ..$ id            : chr "e432899b-7f58-455f-9c7b-9a6e2130a1e0"
+  .. ..$ name          : chr "10 Barrel Brewing Co"
+  .. ..$ brewery_type  : chr "large"
+  .. ..$ address_1     : chr "1411 NW Flanders St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Portland"
+  .. ..$ state_province: chr "Oregon"
+  .. ..$ postal_code   : chr "97209-2620"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-122.6855056"
+  .. ..$ latitude      : chr "45.5259786"
+  .. ..$ phone         : chr "5032241700"
+  .. ..$ website_url   : chr "http://www.10barrel.com"
+  .. ..$ state         : chr "Oregon"
+  .. ..$ street        : chr "1411 NW Flanders St"
+  ..$ :List of 16
+  .. ..$ id            : chr "9f1852da-c312-42da-9a31-097bac81c4c0"
+  .. ..$ name          : chr "10 Barrel Brewing Co - Bend Pub"
+  .. ..$ brewery_type  : chr "large"
+  .. ..$ address_1     : chr "62950 NE 18th St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Bend"
+  .. ..$ state_province: chr "Oregon"
+  .. ..$ postal_code   : chr "97701"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-121.2809536"
+  .. ..$ latitude      : chr "44.0912109"
+  .. ..$ phone         : chr "5415851007"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Oregon"
+  .. ..$ street        : chr "62950 NE 18th St"
+  ..$ :List of 16
+  .. ..$ id            : chr "ea4f30c0-bce6-416b-8904-fab4055a7362"
+  .. ..$ name          : chr "10 Barrel Brewing Co - Boise"
+  .. ..$ brewery_type  : chr "large"
+  .. ..$ address_1     : chr "826 W Bannock St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Boise"
+  .. ..$ state_province: chr "Idaho"
+  .. ..$ postal_code   : chr "83702-5857"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-116.202929"
+  .. ..$ latitude      : chr "43.618516"
+  .. ..$ phone         : chr "2083445870"
+  .. ..$ website_url   : chr "http://www.10barrel.com"
+  .. ..$ state         : chr "Idaho"
+  .. ..$ street        : chr "826 W Bannock St"
+  ..$ :List of 16
+  .. ..$ id            : chr "1988eb86-f0a2-4674-ba04-02454efa0d31"
+  .. ..$ name          : chr "10 Barrel Brewing Co - Denver"
+  .. ..$ brewery_type  : chr "large"
+  .. ..$ address_1     : chr "2620 Walnut St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Denver"
+  .. ..$ state_province: chr "Colorado"
+  .. ..$ postal_code   : chr "80205-2231"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-104.9853655"
+  .. ..$ latitude      : chr "39.7592508"
+  .. ..$ phone         : chr "7205738992"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Colorado"
+  .. ..$ street        : chr "2620 Walnut St"
+  ..$ :List of 16
+  .. ..$ id            : chr "1ecc330f-6275-42a5-b14e-00adbed62752"
+  .. ..$ name          : chr "10 Torr Distilling and Brewing"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "490 Mill St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Reno"
+  .. ..$ state_province: chr "Nevada"
+  .. ..$ postal_code   : chr "89502"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-119.7732015"
+  .. ..$ latitude      : chr "39.5171702"
+  .. ..$ phone         : chr "7755307014"
+  .. ..$ website_url   : chr "http://www.10torr.com"
+  .. ..$ state         : chr "Nevada"
+  .. ..$ street        : chr "490 Mill St"
+  ..$ :List of 16
+  .. ..$ id            : chr "7531dbd8-afc9-4b5b-95bc-7ece7f2c0bf3"
+  .. ..$ name          : chr "10-56 Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "400 Brown Cir"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Knox"
+  .. ..$ state_province: chr "Indiana"
+  .. ..$ postal_code   : chr "46534"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-86.627954"
+  .. ..$ latitude      : chr "41.289715"
+  .. ..$ phone         : chr "6308165790"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Indiana"
+  .. ..$ street        : chr "400 Brown Cir"
+  ..$ :List of 16
+  .. ..$ id            : chr "5ae467af-66dc-4d7f-8839-44228f89b596"
+  .. ..$ name          : chr "101 North Brewing Company"
+  .. ..$ brewery_type  : chr "closed"
+  .. ..$ address_1     : chr "1304 Scott St Ste D"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Petaluma"
+  .. ..$ state_province: chr "California"
+  .. ..$ postal_code   : chr "94954-7100"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-122.665055"
+  .. ..$ latitude      : chr "38.27029381"
+  .. ..$ phone         : chr "7077534934"
+  .. ..$ website_url   : chr "http://www.101northbeer.com"
+  .. ..$ state         : chr "California"
+  .. ..$ street        : chr "1304 Scott St Ste D"
+  ..$ :List of 16
+  .. ..$ id            : chr "4ffda196-dd59-44a5-9eeb-5f7fd4b58f5a"
+  .. ..$ name          : chr "105 West Brewing Co"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "1043 Park St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Castle Rock"
+  .. ..$ state_province: chr "Colorado"
+  .. ..$ postal_code   : chr "80109-1585"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-104.8667206"
+  .. ..$ latitude      : chr "39.38269495"
+  .. ..$ phone         : chr "3033257321"
+  .. ..$ website_url   : chr "http://www.105westbrewing.com"
+  .. ..$ state         : chr "Colorado"
+  .. ..$ street        : chr "1043 Park St"
+  ..$ :List of 16
+  .. ..$ id            : chr "42aa37d5-8384-4ffe-8c81-7c982eff0384"
+  .. ..$ name          : chr "10K Brewing"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "2005 2nd Ave"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Anoka"
+  .. ..$ state_province: chr "Minnesota"
+  .. ..$ postal_code   : chr "55303-2243"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-93.38952559"
+  .. ..$ latitude      : chr "45.19812039"
+  .. ..$ phone         : chr "7633924753"
+  .. ..$ website_url   : chr "http://10KBrew.com"
+  .. ..$ state         : chr "Minnesota"
+  .. ..$ street        : chr "2005 2nd Ave"
+  ..$ :List of 16
+  .. ..$ id            : chr "232e8f62-9afc-45f5-b4bc-582c26b5c43b"
+  .. ..$ name          : chr "10th District Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "491 Washington St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Abington"
+  .. ..$ state_province: chr "Massachusetts"
+  .. ..$ postal_code   : chr "02351-2419"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-70.94594149"
+  .. ..$ latitude      : chr "42.10591754"
+  .. ..$ phone         : chr "7813071554"
+  .. ..$ website_url   : chr "http://www.10thdistrictbrewing.com"
+  .. ..$ state         : chr "Massachusetts"
+  .. ..$ street        : chr "491 Washington St"
+  ..$ :List of 16
+  .. ..$ id            : chr "08f78223-24f8-4b71-b381-ea19a5bd82df"
+  .. ..$ name          : chr "11 Below Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "6820 Bourgeois Rd"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Houston"
+  .. ..$ state_province: chr "Texas"
+  .. ..$ postal_code   : chr "77066-3107"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-95.5186591"
+  .. ..$ latitude      : chr "29.9515464"
+  .. ..$ phone         : chr "2814442337"
+  .. ..$ website_url   : chr "http://www.11belowbrewing.com"
+  .. ..$ state         : chr "Texas"
+  .. ..$ street        : chr "6820 Bourgeois Rd"
+  ..$ :List of 16
+  .. ..$ id            : chr "58293321-14ae-49d7-9a7b-08436c9e63a6"
+  .. ..$ name          : chr "1188 Brewing Co"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "141 E Main St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "John Day"
+  .. ..$ state_province: chr "Oregon"
+  .. ..$ postal_code   : chr "97845-1210"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-118.9218754"
+  .. ..$ latitude      : chr "44.4146563"
+  .. ..$ phone         : chr "5415751188"
+  .. ..$ website_url   : chr "http://www.1188brewing.com"
+  .. ..$ state         : chr "Oregon"
+  .. ..$ street        : chr "141 E Main St"
+  ..$ :List of 16
+  .. ..$ id            : chr "e5f3e72a-fee2-4813-82cf-f2e53b439ae6"
+  .. ..$ name          : chr "12 Acres Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "Unnamed Street"
+  .. ..$ address_2     : chr "Clonmore"
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Killeshin"
+  .. ..$ state_province: chr "Laois"
+  .. ..$ postal_code   : chr "R93 X3X8"
+  .. ..$ country       : chr "Ireland"
+  .. ..$ longitude     : chr "-6.979343891"
+  .. ..$ latitude      : chr "52.84930763"
+  .. ..$ phone         : chr "353599107299"
+  .. ..$ website_url   : chr "https://12acresbrewing.ie/"
+  .. ..$ state         : chr "Laois"
+  .. ..$ street        : chr "Unnamed Street"
+  ..$ :List of 16
+  .. ..$ id            : chr "d81ff708-b5d2-478f-af6a-6d40f5beb9ac"
+  .. ..$ name          : chr "12 Gates Brewing Company"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "80 Earhart Dr Ste 20"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Williamsville"
+  .. ..$ state_province: chr "New York"
+  .. ..$ postal_code   : chr "14221-7804"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "7169066600"
+  .. ..$ website_url   : chr "http://www.12gatesbrewing.com"
+  .. ..$ state         : chr "New York"
+  .. ..$ street        : chr "80 Earhart Dr Ste 20"
+  ..$ :List of 16
+  .. ..$ id            : chr "fb94830f-6196-4f59-9189-c9060b778085"
+  .. ..$ name          : chr "12 West Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "3000 E Ray Rd Bldg 6"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Gilbert"
+  .. ..$ state_province: chr "Arizona"
+  .. ..$ postal_code   : chr "85296-7832"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "6023395014"
+  .. ..$ website_url   : chr "http://www.12westbrewing.com"
+  .. ..$ state         : chr "Arizona"
+  .. ..$ street        : chr "3000 E Ray Rd Bldg 6"
+  ..$ :List of 16
+  .. ..$ id            : chr "0faa0fb2-fffa-416d-9eab-46f67477c8ef"
+  .. ..$ name          : chr "12 West Brewing Company - Production Facility"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : NULL
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Mesa"
+  .. ..$ state_province: chr "Arizona"
+  .. ..$ postal_code   : chr "85207"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-111.5860662"
+  .. ..$ latitude      : chr "33.436188"
+  .. ..$ phone         : NULL
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Arizona"
+  .. ..$ street        : NULL
+  ..$ :List of 16
+  .. ..$ id            : chr "e54c2f02-acd6-4172-861d-fcfa54c8701a"
+  .. ..$ name          : chr "122 West Brewing Co"
+  .. ..$ brewery_type  : chr "closed"
+  .. ..$ address_1     : chr "2416 Meridian St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Bellingham"
+  .. ..$ state_province: chr "Washington"
+  .. ..$ postal_code   : chr "98225-2405"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-122.485982"
+  .. ..$ latitude      : chr "48.7621709"
+  .. ..$ phone         : chr "3603063285"
+  .. ..$ website_url   : chr "https://www.122westbrew.com/"
+  .. ..$ state         : chr "Washington"
+  .. ..$ street        : chr "2416 Meridian St"
+  ..$ :List of 16
+  .. ..$ id            : chr "d5cb896d-3e99-4e19-9693-5e06ce987e53"
+  .. ..$ name          : chr "127 Brewing"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "3090 Shirley Dr"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Jackson"
+  .. ..$ state_province: chr "Michigan"
+  .. ..$ postal_code   : chr "49201-7010"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-84.43116792"
+  .. ..$ latitude      : chr "42.28667212"
+  .. ..$ phone         : chr "5172581346"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Michigan"
+  .. ..$ street        : chr "3090 Shirley Dr"
+  ..$ :List of 16
+  .. ..$ id            : chr "06e9fffb-e820-45c9-b107-b52b51013e8f"
+  .. ..$ name          : chr "12Degree Brewing"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "820 Main St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Louisville"
+  .. ..$ state_province: chr "Colorado"
+  .. ..$ postal_code   : chr "80027-1865"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-105.1319826"
+  .. ..$ latitude      : chr "39.9782443"
+  .. ..$ phone         : chr "3035791004"
+  .. ..$ website_url   : chr "http://www.12degree.com"
+  .. ..$ state         : chr "Colorado"
+  .. ..$ street        : chr "820 Main St"
+  ..$ :List of 16
+  .. ..$ id            : chr "50521ef7-f543-4c5d-98b1-0d0ee1a2be01"
+  .. ..$ name          : chr "12welve Eyes Brewing"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "141 E 4th St Ste LL2"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Saint Paul"
+  .. ..$ state_province: chr "Minnesota"
+  .. ..$ postal_code   : chr "55101-1639"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "6514938106"
+  .. ..$ website_url   : chr "http://www.12welveEyes.com"
+  .. ..$ state         : chr "Minnesota"
+  .. ..$ street        : chr "141 E 4th St Ste LL2"
+  ..$ :List of 16
+  .. ..$ id            : chr "950180bd-29c9-46b3-ad0c-e6f09799ec7f"
+  .. ..$ name          : chr "13 Below Brewery"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "7391 Forbes Rd"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Cincinnati"
+  .. ..$ state_province: chr "Ohio"
+  .. ..$ postal_code   : chr "45233-1013"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-84.70634815"
+  .. ..$ latitude      : chr "39.12639764"
+  .. ..$ phone         : chr "5139750613"
+  .. ..$ website_url   : chr "http://www.13belowbrewery.com"
+  .. ..$ state         : chr "Ohio"
+  .. ..$ street        : chr "7391 Forbes Rd"
+  ..$ :List of 16
+  .. ..$ id            : chr "45119c56-345b-4adc-b481-c5cf7bfe98c4"
+  .. ..$ name          : chr "13 Stripes Brewery"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "250 Mill St, Suite PW3101"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Taylors"
+  .. ..$ state_province: chr "South Carolina"
+  .. ..$ postal_code   : chr "29687"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "8643491430"
+  .. ..$ website_url   : chr "http://www.13StripesBrewery.com"
+  .. ..$ state         : chr "South Carolina"
+  .. ..$ street        : chr "250 Mill St, Suite PW3101"
+  ..$ :List of 16
+  .. ..$ id            : chr "936c3d7e-5d54-4459-b72c-117cdda059b4"
+  .. ..$ name          : chr "13 Virtues Brewing Co"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "6410 SE Milwaukie Ave"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Portland"
+  .. ..$ state_province: chr "Oregon"
+  .. ..$ postal_code   : chr "97202-5518"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-122.6487531"
+  .. ..$ latitude      : chr "45.4762536"
+  .. ..$ phone         : chr "5032393831"
+  .. ..$ website_url   : chr "http://www.13virtuesbrewing.com"
+  .. ..$ state         : chr "Oregon"
+  .. ..$ street        : chr "6410 SE Milwaukie Ave"
+  ..$ :List of 16
+  .. ..$ id            : chr "5c53b314-ebab-4e3e-89be-e4139d9318ae"
+  .. ..$ name          : chr "1323 R &amp; D"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "1323 Capital Blvd 1323 R and D"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Raleigh"
+  .. ..$ state_province: chr "North Carolina"
+  .. ..$ postal_code   : chr "27603-1117"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "9199775654"
+  .. ..$ website_url   : chr "http://www.1323rnd.com"
+  .. ..$ state         : chr "North Carolina"
+  .. ..$ street        : chr "1323 Capital Blvd 1323 R and D"
+  ..$ :List of 16
+  .. ..$ id            : chr "4788221a-a03b-458c-9084-4cadd69ade6d"
+  .. ..$ name          : chr "14 Cannons Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "31125 Via Colinas Ste 907"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Westlake Village"
+  .. ..$ state_province: chr "California"
+  .. ..$ postal_code   : chr "91362-3974"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-118.802397"
+  .. ..$ latitude      : chr "34.15334"
+  .. ..$ phone         : chr "8186996165"
+  .. ..$ website_url   : chr "http://14cannons.com"
+  .. ..$ state         : chr "California"
+  .. ..$ street        : chr "31125 Via Colinas Ste 907"
+  ..$ :List of 16
+  .. ..$ id            : chr "b7b68d22-5045-4501-b9bf-ec94946eaffc"
+  .. ..$ name          : chr "14 Lakes Brewery"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : NULL
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Crosslake"
+  .. ..$ state_province: chr "Minnesota"
+  .. ..$ postal_code   : chr "56442"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "2186924129"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Minnesota"
+  .. ..$ street        : NULL
+  ..$ :List of 16
+  .. ..$ id            : chr "4b677b60-fef1-42e2-90ef-dadc1bd7fb06"
+  .. ..$ name          : chr "14er Brewing Company"
+  .. ..$ brewery_type  : chr "proprietor"
+  .. ..$ address_1     : chr "2801 Walnut St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Denver"
+  .. ..$ state_province: chr "Colorado"
+  .. ..$ postal_code   : chr "80205-2235"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-104.9839636"
+  .. ..$ latitude      : chr "39.7614112"
+  .. ..$ phone         : chr "7207731437"
+  .. ..$ website_url   : chr "http://www.14erBrewing.com"
+  .. ..$ state         : chr "Colorado"
+  .. ..$ street        : chr "2801 Walnut St"
+  ..$ :List of 16
+  .. ..$ id            : chr "6c53984f-fac1-4ea7-9c44-44e25897c71a"
+  .. ..$ name          : chr "14th Star Brewing"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "133 N Main St Ste 7"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Saint Albans"
+  .. ..$ state_province: chr "Vermont"
+  .. ..$ postal_code   : chr "05478-1735"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "8025285988"
+  .. ..$ website_url   : chr "http://www.14thstarbrewing.com"
+  .. ..$ state         : chr "Vermont"
+  .. ..$ street        : chr "133 N Main St Ste 7"
+  ..$ :List of 16
+  .. ..$ id            : chr "85192a9c-58a4-48c3-bd9d-496d09d22aa3"
+  .. ..$ name          : chr "16 Lots Brewing"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "753 Reading Rd"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Mason"
+  .. ..$ state_province: chr "Ohio"
+  .. ..$ postal_code   : chr "45040-1303"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-84.3183801"
+  .. ..$ latitude      : chr "39.3545967"
+  .. ..$ phone         : chr "5134863672"
+  .. ..$ website_url   : chr "http://www.16lots.com"
+  .. ..$ state         : chr "Ohio"
+  .. ..$ street        : chr "753 Reading Rd"
+  ..$ :List of 16
+  .. ..$ id            : chr "284b44f8-6ccb-4cd6-8d06-f2ad882a47c3"
+  .. ..$ name          : chr "16 Mile Brewing Co"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "413 S Bedford St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Georgetown"
+  .. ..$ state_province: chr "Delaware"
+  .. ..$ postal_code   : chr "19947-1849"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-75.37816436"
+  .. ..$ latitude      : chr "38.6788938"
+  .. ..$ phone         : chr "3022538816"
+  .. ..$ website_url   : chr "http://www.16milebrewery.com"
+  .. ..$ state         : chr "Delaware"
+  .. ..$ street        : chr "413 S Bedford St"
+  ..$ :List of 16
+  .. ..$ id            : chr "ee6d39c6-092f-4623-8099-5b8643f70dbe"
+  .. ..$ name          : chr "16 Stone Brewpub"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "9542 Main St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Holland Patent"
+  .. ..$ state_province: chr "New York"
+  .. ..$ postal_code   : chr "13354"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-75.2565195"
+  .. ..$ latitude      : chr "43.24211175"
+  .. ..$ phone         : chr "3158658500"
+  .. ..$ website_url   : chr "http://www.16stonebrewpub.com"
+  .. ..$ state         : chr "New York"
+  .. ..$ street        : chr "9542 Main St"
+  ..$ :List of 16
+  .. ..$ id            : chr "d35b40b0-a3ff-4878-a6ee-9caa2149b521"
+  .. ..$ name          : chr "1623 Brewing CO, llc"
+  .. ..$ brewery_type  : chr "contract"
+  .. ..$ address_1     : chr "1146 colonel Joshua Ct"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Westminister"
+  .. ..$ state_province: chr "Maryland"
+  .. ..$ postal_code   : chr "21157"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : NULL
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Maryland"
+  .. ..$ street        : chr "1146 colonel Joshua Ct"
+  ..$ :List of 16
+  .. ..$ id            : chr "84bd3b3c-bd2d-4e07-bc31-b43a8c8ebf4c"
+  .. ..$ name          : chr "1717 Brewing Co"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "322 E Court Ave"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Des Moines"
+  .. ..$ state_province: chr "Iowa"
+  .. ..$ postal_code   : chr "50309-2015"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-93.6120353"
+  .. ..$ latitude      : chr "41.5872267"
+  .. ..$ phone         : chr "5152437868"
+  .. ..$ website_url   : chr "http://1717brewing.com"
+  .. ..$ state         : chr "Iowa"
+  .. ..$ street        : chr "322 E Court Ave"
+  ..$ :List of 16
+  .. ..$ id            : chr "f41a0c47-ba9b-4547-bfed-fcbefe0fc74b"
+  .. ..$ name          : chr "1718 Ocracoke Brewing"
+  .. ..$ brewery_type  : chr "brewpub"
+  .. ..$ address_1     : chr "1129 Irvin Garrish Hwy"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Ocracoke"
+  .. ..$ state_province: chr "North Carolina"
+  .. ..$ postal_code   : chr "27960"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-75.97176063"
+  .. ..$ latitude      : chr "35.10715368"
+  .. ..$ phone         : chr "2529282337"
+  .. ..$ website_url   : chr "http://www.ocracokebrewing.com"
+  .. ..$ state         : chr "North Carolina"
+  .. ..$ street        : chr "1129 Irvin Garrish Hwy"
+  ..$ :List of 16
+  .. ..$ id            : chr "84d621c4-81a5-44e6-aca7-1566c2e67cc0"
+  .. ..$ name          : chr "1781 Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "11109 Plank Rd"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Spotsylvania"
+  .. ..$ state_province: chr "Virginia"
+  .. ..$ postal_code   : chr "22553-4258"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : NULL
+  .. ..$ latitude      : NULL
+  .. ..$ phone         : chr "5408412598"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Virginia"
+  .. ..$ street        : chr "11109 Plank Rd"
+  ..$ :List of 16
+  .. ..$ id            : chr "896f26a1-d80e-4790-9287-026a86c1799d"
+  .. ..$ name          : chr "180 and Tapped"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "2010 A State Ave"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Coraopolis"
+  .. ..$ state_province: chr "Pennsylvania"
+  .. ..$ postal_code   : chr "15108"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-80.15020356"
+  .. ..$ latitude      : chr "40.50984957"
+  .. ..$ phone         : chr "4127375273"
+  .. ..$ website_url   : chr "http://www.180andtapped.com"
+  .. ..$ state         : chr "Pennsylvania"
+  .. ..$ street        : chr "2010 A State Ave"
+  ..$ :List of 16
+  .. ..$ id            : chr "46839a79-b7bf-4733-b91b-ce116d062a57"
+  .. ..$ name          : chr "1817 Brewery"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "100 B South Olive St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "okolona"
+  .. ..$ state_province: chr "Mississippi"
+  .. ..$ postal_code   : chr "38860"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-88.750264"
+  .. ..$ latitude      : chr "34.001703"
+  .. ..$ phone         : chr "6623055907"
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Mississippi"
+  .. ..$ street        : chr "100 B South Olive St"
+  ..$ :List of 16
+  .. ..$ id            : chr "1a1b2165-73ed-40aa-b89b-56794d140f22"
+  .. ..$ name          : chr "1840 Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "342 E Ward St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Milwaukee"
+  .. ..$ state_province: chr "Wisconsin"
+  .. ..$ postal_code   : chr "53207-1348"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-87.90606942"
+  .. ..$ latitude      : chr "43.00436242"
+  .. ..$ phone         : chr "4142364056"
+  .. ..$ website_url   : chr "http://www.1840brewing.com"
+  .. ..$ state         : chr "Wisconsin"
+  .. ..$ street        : chr "342 E Ward St"
+  ..$ :List of 16
+  .. ..$ id            : chr "fe6b9893-b93e-43d5-a9f6-3e0c89a3f13c"
+  .. ..$ name          : chr "1850 Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : NULL
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Mariposa"
+  .. ..$ state_province: chr "California"
+  .. ..$ postal_code   : chr "95338"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-119.9036592"
+  .. ..$ latitude      : chr "37.570148"
+  .. ..$ phone         : NULL
+  .. ..$ website_url   : chr "http://www.1850restaurant.com"
+  .. ..$ state         : chr "California"
+  .. ..$ street        : NULL
+  ..$ :List of 16
+  .. ..$ id            : chr "b51f3cdf-60ff-4ae1-94a7-76906c7d62eb"
+  .. ..$ name          : chr "18th Street Brewery"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "5725 Miller Ave"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Gary"
+  .. ..$ state_province: chr "Indiana"
+  .. ..$ postal_code   : chr "46403-2871"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-87.26887786"
+  .. ..$ latitude      : chr "41.59928343"
+  .. ..$ phone         : NULL
+  .. ..$ website_url   : chr "http://www.18thstreetbrewery.com"
+  .. ..$ state         : chr "Indiana"
+  .. ..$ street        : chr "5725 Miller Ave"
+  ..$ :List of 16
+  .. ..$ id            : chr "add7f978-942e-4d56-b209-c80837a51d69"
+  .. ..$ name          : chr "18th Street Brewery"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "5417 Oakley Ave"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Hammond"
+  .. ..$ state_province: chr "Indiana"
+  .. ..$ postal_code   : chr "46320-1817"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-87.517422"
+  .. ..$ latitude      : chr "41.61556796"
+  .. ..$ phone         : NULL
+  .. ..$ website_url   : NULL
+  .. ..$ state         : chr "Indiana"
+  .. ..$ street        : chr "5417 Oakley Ave"
+  ..$ :List of 16
+  .. ..$ id            : chr "dbde8235-2b55-4d8b-8b1c-438155abe104"
+  .. ..$ name          : chr "1905 Brewing Company"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "1301 S Chestnut St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Assumption"
+  .. ..$ state_province: chr "Illinois"
+  .. ..$ postal_code   : chr "62510-8504"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-89.0503635"
+  .. ..$ latitude      : chr "39.5172564"
+  .. ..$ phone         : chr "2172549374"
+  .. ..$ website_url   : chr "http://1905BrewingCompany.com"
+  .. ..$ state         : chr "Illinois"
+  .. ..$ street        : chr "1301 S Chestnut St"
+  ..$ :List of 16
+  .. ..$ id            : chr "4f4b5b34-d572-4dff-a18f-47e507c073e6"
+  .. ..$ name          : chr "1912 Brewing"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "2045 N Forbes Blvd Ste 105"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Tucson"
+  .. ..$ state_province: chr "Arizona"
+  .. ..$ postal_code   : chr "85745-1444"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-110.9927505"
+  .. ..$ latitude      : chr "32.24673727"
+  .. ..$ phone         : chr "5202564851"
+  .. ..$ website_url   : chr "http://www.1912brewing.com"
+  .. ..$ state         : chr "Arizona"
+  .. ..$ street        : chr "2045 N Forbes Blvd Ste 105"
+  ..$ :List of 16
+  .. ..$ id            : chr "4ccad9b9-f9cf-4d21-b6d5-ab005ee1532d"
+  .. ..$ name          : chr "192 Brewing"
+  .. ..$ brewery_type  : chr "micro"
+  .. ..$ address_1     : chr "7324 NE 175th St"
+  .. ..$ address_2     : NULL
+  .. ..$ address_3     : NULL
+  .. ..$ city          : chr "Kenmore"
+  .. ..$ state_province: chr "Washington"
+  .. ..$ postal_code   : chr "98028-2500"
+  .. ..$ country       : chr "United States"
+  .. ..$ longitude     : chr "-122.2415652"
+  .. ..$ latitude      : chr "47.75670075"
+  .. ..$ phone         : chr "4254242337"
+  .. ..$ website_url   : chr "http://www.192brewing.com"
+  .. ..$ state         : chr "Washington"
+  .. ..$ street        : chr "7324 NE 175th St"
+NULL</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>chars <span class="ot">=</span>  <span class="fu">tibble</span>(<span class="at">json =</span> beer_response)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>chars  <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(json)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 50 × 16
+   id      name  brewery_type address_1 address_2 address_3 city  state_province
+   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;     &lt;lgl&gt;     &lt;chr&gt; &lt;chr&gt;         
+ 1 5128df… (405… micro        1716 Top… &lt;NA&gt;      NA        Norm… Oklahoma      
+ 2 9c5a66… (512… micro        407 Rada… &lt;NA&gt;      NA        Aust… Texas         
+ 3 34e8c6… 1 of… micro        8100 Was… &lt;NA&gt;      NA        Moun… Wisconsin     
+ 4 ef9707… 10 B… large        1501 E St &lt;NA&gt;      NA        San … California    
+ 5 6d14b2… 10 B… large        62970 18… &lt;NA&gt;      NA        Bend  Oregon        
+ 6 e2e78b… 10 B… large        1135 NW … &lt;NA&gt;      NA        Bend  Oregon        
+ 7 e43289… 10 B… large        1411 NW … &lt;NA&gt;      NA        Port… Oregon        
+ 8 9f1852… 10 B… large        62950 NE… &lt;NA&gt;      NA        Bend  Oregon        
+ 9 ea4f30… 10 B… large        826 W Ba… &lt;NA&gt;      NA        Boise Idaho         
+10 1988eb… 10 B… large        2620 Wal… &lt;NA&gt;      NA        Denv… Colorado      
+# ℹ 40 more rows
+# ℹ 8 more variables: postal_code &lt;chr&gt;, country &lt;chr&gt;, longitude &lt;chr&gt;,
+#   latitude &lt;chr&gt;, phone &lt;chr&gt;, website_url &lt;chr&gt;, state &lt;chr&gt;, street &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>I chose name , brewery_type, city, state,longitude, and latitude, because it was easier to plot data sets based on these variables. Also cleaning it would have been much simple set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>beer_characters  <span class="ot">=</span> chars <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(json) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, name , brewery_type, city, state,longitude, latitude)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>beer_characters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 50 × 7
+   id                          name  brewery_type city  state longitude latitude
+   &lt;chr&gt;                       &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   
+ 1 5128df48-79fc-4f0f-8b52-d0… (405… micro        Norm… Okla… -97.4681… 35.2573…
+ 2 9c5a66c8-cc13-416f-a5d9-0a… (512… micro        Aust… Texas &lt;NA&gt;      &lt;NA&gt;    
+ 3 34e8c68b-6146-453f-a4b9-1f… 1 of… micro        Moun… Wisc… -87.8833… 42.7201…
+ 4 ef970757-fe42-416f-931d-72… 10 B… large        San … Cali… -117.129… 32.7148…
+ 5 6d14b220-8926-4521-8d19-b9… 10 B… large        Bend  Oreg… -121.281… 44.0868…
+ 6 e2e78bd8-80ff-4a61-a65c-3b… 10 B… large        Bend  Oreg… -121.328… 44.0575…
+ 7 e432899b-7f58-455f-9c7b-9a… 10 B… large        Port… Oreg… -122.685… 45.5259…
+ 8 9f1852da-c312-42da-9a31-09… 10 B… large        Bend  Oreg… -121.280… 44.0912…
+ 9 ea4f30c0-bce6-416b-8904-fa… 10 B… large        Boise Idaho -116.202… 43.6185…
+10 1988eb86-f0a2-4674-ba04-02… 10 B… large        Denv… Colo… -104.985… 39.7592…
+# ℹ 40 more rows</code></pre>
+</div>
+</div>
+<p>Here I use count to find the top cities with the most breweries, because brewery production maybe be more accessible in some cities than others.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>breweries_by_city <span class="ot">=</span> beer_characters <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(city) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))  </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(breweries_by_city, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   city            n
+   &lt;chr&gt;       &lt;int&gt;
+ 1 Bend            3
+ 2 Denver          2
+ 3 Portland        2
+ 4 Abington        1
+ 5 Anoka           1
+ 6 Assumption      1
+ 7 Austin          1
+ 8 Bellingham      1
+ 9 Boise           1
+10 Castle Rock     1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>brewery_type_state <span class="ot">&lt;-</span> beer_characters <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(state, brewery_type) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(state))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>brewery_type_state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 36 × 3
+   state      brewery_type     n
+   &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;
+ 1 Arizona    micro            3
+ 2 California closed           1
+ 3 California large            1
+ 4 California micro            2
+ 5 Colorado   brewpub          1
+ 6 Colorado   large            1
+ 7 Colorado   micro            1
+ 8 Colorado   proprietor       1
+ 9 Delaware   micro            1
+10 Idaho      large            1
+# ℹ 26 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Looking for some missing columns, that could have affect on my plot </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>missing_data <span class="ot">&lt;-</span> beer_characters <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_latitude =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(latitude)),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_longitude =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(longitude)),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_brewery_type =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(brewery_type))</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>missing_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  missing_latitude missing_longitude missing_brewery_type
+             &lt;int&gt;             &lt;int&gt;                &lt;int&gt;
+1               10                10                    0</code></pre>
+</div>
+</div>
+<p>Oregon has the higest the count of breweries across the country and with Delaware being the highest. Oregon has an ideal climate for growign crops and has long history of pioneers that started the beer culture.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>beer_characters <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(state) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(state, n), <span class="at">y =</span> n)) <span class="sc">+</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"gold"</span>, <span class="at">color =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Number of Breweries per State"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"State"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Breweries"</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="TidyVerseBrewery_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># top 5 cities with beer type  production </span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>top_cities <span class="ot">=</span>  beer_characters <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(city) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>, n) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(city)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>top_cities</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Abington"         "Anoka"            "Assumption"       "Austin"          
+ [5] "Bellingham"       "Bend"             "Boise"            "Castle Rock"     
+ [9] "Cincinnati"       "Coraopolis"       "Crosslake"        "Denver"          
+[13] "Des Moines"       "Gary"             "Georgetown"       "Gilbert"         
+[17] "Hammond"          "Holland Patent"   "Houston"          "Jackson"         
+[21] "John Day"         "Kenmore"          "Killeshin"        "Knox"            
+[25] "Louisville"       "Mariposa"         "Mason"            "Mesa"            
+[29] "Milwaukee"        "Mount Pleasant"   "Norman"           "Ocracoke"        
+[33] "Petaluma"         "Portland"         "Raleigh"          "Reno"            
+[37] "Saint Albans"     "Saint Paul"       "San Diego"        "Spotsylvania"    
+[41] "Taylors"          "Tucson"           "Westlake Village" "Westminister"    
+[45] "Williamsville"    "okolona"         </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>beer_characters <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(city <span class="sc">%in%</span> top_cities) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(city, brewery_type) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(city, n), <span class="at">y =</span> n, <span class="at">fill =</span> brewery_type)) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Brewery Types in Top 5 Cities"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"City"</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Breweries"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Brewery Type"</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="TidyVerseBrewery_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<pre class="ddw#"><code>install.packages("usmap")</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usmap)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_usmap</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="TidyVerseBrewery_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Used a map to visulize which type of brewery production is popular in the state</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_usmap</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">linewidth =</span> <span class="fl">0.1</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> <span class="st">"states"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> brewery_type_state,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="st">"brewery_type"</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="TidyVerseBrewery_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
